@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Trip Planner Agent</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fa;
+            padding: 40px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        form {
+            text-align: center;
+            margin: 30px 0;
+        }
+        input {
+            padding: 12px;
+            width: 60%;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+        .message-box {
+            background: #e8f4fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .message-box h3 {
+            margin-top: 0;
+            color: #2980b9;
+        }
+        pre {
+            white-space: pre-wrap;
+            font-family: inherit;
+            background: #fff;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #3498db;
+        }
+    </style>
+</head>
+<body>
+
+    <h1> Trip Planner Agent</h1>
+
+    <form action="/search" method="POST">
+        <input type="text" name="query" placeholder="e.g., Plan a 3-day trip to Jaipur..." required>
+        <br><br>
+        <button type="submit">Generate Plan</button>
+    </form>
+
+    {% if message %}
+    <div class="message-box">
+        <h3> Your Generated Plan</h3>
+        <pre>{{ message }}</pre>
+    </div>
+    {% endif %}
+
+    <h2> Past Plans</h2>
+    <ul>
+        {% for report in reports %}
+            <li>
+                <a href="/plan/{{ report['id'] }}">#{{ report['id'] }}: {{ report['query'] }}</a>
+                <small>({{ report['timestamp'] }})</small>
+            </li>
+        {% else %}
+            <li><em>No plans yet. Generate your first trip!</em></li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>
